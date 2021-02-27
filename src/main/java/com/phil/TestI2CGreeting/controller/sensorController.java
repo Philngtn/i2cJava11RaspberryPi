@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class sensorController {
-    @RequestMapping
+    @RequestMapping("/")
     public String greeting(){
         return "Hello World";
     }
