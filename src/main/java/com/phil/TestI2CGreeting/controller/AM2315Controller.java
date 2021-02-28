@@ -20,7 +20,7 @@ public class AM2315Controller {
     public static final byte AM2315_REG_HUM_H = (byte)0x00;
 
 
-    public static String readTempAndHumidity () throws InterruptedException, PlatformAlreadyAssignedException, IOException, I2CFactory.UnsupportedBusNumberException{
+    public static void readTempAndHumidity() throws InterruptedException, PlatformAlreadyAssignedException, IOException, I2CFactory.UnsupportedBusNumberException{
 
         // create Pi4J console wrapper/helper
         // (This is a utility class to abstract some of the boilerplate code)
@@ -60,17 +60,17 @@ public class AM2315Controller {
         // in this example we will use the default address for the AM2315 chip which is 0x5C.
         console.println("Getting sensor address AM2315 - 0x5C");
         I2CDevice device = i2c.getDevice(AM2315_ADDR);
+        console.println("Getting sensor address: " + String.format("0h", device.getAddress()));
 
 
         // next we want to start taking measurements, so we need to power up the sensor
-        console.println("... powering up AM2315");
-        device.write(new byte[] {0x00});
+        console.println("... Powering up AM2315");
+        device.write(new byte[0x00]);
 
         // next, lets perform am I2C READ operation to the AM2315 chip
         // we will read the 'ID' register from the chip to get its part number and silicon revision number
         // wait while the chip collects data
         Thread.sleep(500);
-
         // now we will perform our first I2C READ operation to retrieve raw integration
         // results from DATA_0 and DATA_1 registers
         console.println("... reading DATA registers from AM2315");
@@ -84,9 +84,6 @@ public class AM2315Controller {
         // print raw integration results from DATA_0 and DATA_1 registers
         console.println("AM2315 Temperature = " + String.format("0x%02x", temperature));
         console.println("AM2315 Humidity = " + String.format("0x%02x", humid));
-
-        return "AM2315 Temperature " + String.format("0x%02x", temperature) + " and AM2315 Humidity = " + String.format("0x%02x", humid);
-
     }
 
 }
