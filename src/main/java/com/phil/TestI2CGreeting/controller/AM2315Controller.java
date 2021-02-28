@@ -64,7 +64,7 @@ public class AM2315Controller {
 
         // next we want to start taking measurements, so we need to power up the sensor
         console.println("... powering up AM2315");
-        device.write((byte) 0x00);
+        device.write(new byte[] {0x00});
 
         // next, lets perform am I2C READ operation to the AM2315 chip
         // we will read the 'ID' register from the chip to get its part number and silicon revision number
