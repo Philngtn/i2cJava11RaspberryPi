@@ -61,24 +61,24 @@ public class AM2315Controller {
 
         // next, lets perform am I2C READ operation to the AM2315 chip
         // we will read the 'ID' register from the chip to get its part number and silicon revision number
-        console.println("... reading ID register from AM2315");
-        int response = device.read(AM2315_CMD_READREG);
-        console.println("AM2315 ID = " + String.format("0x%02x", response) + " (should be 0x03)");
-
         // wait while the chip collects data
         Thread.sleep(500);
 
         // now we will perform our first I2C READ operation to retrieve raw integration
         // results from DATA_0 and DATA_1 registers
         console.println("... reading DATA registers from TSL2561");
-        int data0 = device.read(AM2315_REG_TEMP_H);
-        int data1 = device.read(AM2315_REG_HUM_H);
+        float temperature = device.read(AM2315_REG_TEMP_H);
+        if (temperature >= 32768){
+            temperature = 32768 - temperature;
+            temperature = temperature/10;
+        }
+        float humid = device.read(AM2315_REG_HUM_H)/10;
 
         // print raw integration results from DATA_0 and DATA_1 registers
-        console.println("AM2315 Temperature = " + String.format("0x%02x", data0));
-        console.println("AM2315 Humidity = " + String.format("0x%02x", data1));
+        console.println("AM2315 Temperature = " + String.format("0x%02x", temperature));
+        console.println("AM2315 Humidity = " + String.format("0x%02x", humid));
 
-        return "AM2315 Temperature " + String.format("0x%02x", data0) + " and AM2315 Humidity = " + String.format("0x%02x", data1);
+        return "AM2315 Temperature " + String.format("0x%02x", temperature) + " and AM2315 Humidity = " + String.format("0x%02x", humid);
 
     }
 
