@@ -15,6 +15,7 @@ public class AM2315Controller {
 
     //AM2315 register
     public static final byte AM2315_CMD_READREG = (byte)0x03;
+    public static final byte AM2315_CMD_WRTREG = (byte)0x10;
     public static final byte AM2315_REG_TEMP_H = (byte)0x02;
     public static final byte AM2315_REG_HUM_H = (byte)0x00;
 
@@ -57,7 +58,13 @@ public class AM2315Controller {
 
         // create an I2C device for an individual device on the bus that you want to communicate with
         // in this example we will use the default address for the AM2315 chip which is 0x5C.
+        console.println("Getting sensor address AM2315 - 0x5C");
         I2CDevice device = i2c.getDevice(AM2315_ADDR);
+
+
+        // next we want to start taking measurements, so we need to power up the sensor
+        console.println("... powering up AM2315");
+        device.write(AM2315_CMD_WRTREG, (byte) 0x00);
 
         // next, lets perform am I2C READ operation to the AM2315 chip
         // we will read the 'ID' register from the chip to get its part number and silicon revision number
@@ -66,8 +73,8 @@ public class AM2315Controller {
 
         // now we will perform our first I2C READ operation to retrieve raw integration
         // results from DATA_0 and DATA_1 registers
-        console.println("... reading DATA registers from TSL2561");
-        float temperature = device.read(AM2315_REG_TEMP_H);
+        console.println("... reading DATA registers from AM2315");
+        float temperature = device.read(new byte[]{AM2315_CMD_READREG}, AM2315_REG_TEMP_H & 0xFF , 2 );
         if (temperature >= 32768){
             temperature = 32768 - temperature;
             temperature = temperature/10;
