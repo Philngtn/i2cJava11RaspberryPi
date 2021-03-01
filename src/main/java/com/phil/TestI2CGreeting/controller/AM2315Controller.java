@@ -18,15 +18,7 @@ public class AM2315Controller {
     public static final byte AM2315_REG_TEMP_H = (byte)0x02;
     public static final byte AM2315_REG_HUM_H = (byte)0x00;
 
-    public static byte[] charToByteArray(char[] x)
-    {
-        final byte[] res = new byte[x.length];
-        for (int i = 0; i < x.length; i++)
-        {
-            res[i] = (byte) x[i];
-        }
-        return res;
-    }
+
 
     public static String readTempAndHumidity() throws InterruptedException, PlatformAlreadyAssignedException, IOException, I2CFactory.UnsupportedBusNumberException{
 
@@ -86,19 +78,9 @@ public class AM2315Controller {
         console.println("                                  ");
         console.println("**********************************");
         console.println("                                  ");
-        try {
-            byte[] cmd = new byte[] {(byte)0x5c,(byte)0x00};
-            device.write(cmd);
 
-        }catch (IOException exception){
-            console.println("                                  ");
-            console.println("**********************************");
-            console.println("                                  ");
-            console.println("AM2315 is offline");
-            console.println("                                  ");
-            console.println("**********************************");
-            console.println("                                  ");
-        }
+        device.write(I2CBus.BUS_1, (byte) AM2315_ADDR);
+
         console.println("                                  ");
         console.println("**********************************");
         console.println("                                  ");
