@@ -87,8 +87,9 @@ public class AM2315Controller {
         console.println("**********************************");
         console.println("                                  ");
 
-        final char[] cmd = new char[] {0x03, 0x00} ;
+        final char[] cmd = new char[] {0x00} ;
         device.write(charToByteArray(cmd));
+
 
 
         // next, lets perform am I2C READ operation to the AM2315 chip
