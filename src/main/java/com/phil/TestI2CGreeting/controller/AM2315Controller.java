@@ -87,7 +87,9 @@ public class AM2315Controller {
         console.println("**********************************");
         console.println("                                  ");
         try {
-            device.write((byte) 0x00);
+            byte[] cmd = new byte[] {(byte)0x5c,(byte)0x00};
+            device.write(cmd);
+
         }catch (IOException exception){
             console.println("                                  ");
             console.println("**********************************");
