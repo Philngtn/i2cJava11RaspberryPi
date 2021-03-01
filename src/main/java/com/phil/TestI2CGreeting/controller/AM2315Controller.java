@@ -19,8 +19,6 @@ public class AM2315Controller {
     public static final byte AM2315_REG_HUM_H = (byte)0x00;
 
 
-    public static final byte AM2315_POWER_UP = (byte)0x00;
-
     public static String readTempAndHumidity() throws InterruptedException, PlatformAlreadyAssignedException, IOException, I2CFactory.UnsupportedBusNumberException{
 
         // create Pi4J console wrapper/helper
@@ -65,18 +63,22 @@ public class AM2315Controller {
 
 
         // next we want to start taking measurements, so we need to power up the sensor
-//        console.println("Powering up AM2315 ...");
-//        device.write(AM2315_CMD_READREG,AM2315_POWER_UP);
-//        console.println("AM2315 is online...");
+        device.write(AM2315_CMD_READREG,(byte) 0x00);
+
 
         // next, lets perform am I2C READ operation to the AM2315 chip
         // we will read the 'ID' register from the chip to get its part number and silicon revision number
         // wait while the chip collects data
-        Thread.sleep(500);
+        Thread.sleep(10);
         // now we will perform our first I2C READ operation to retrieve raw integration
         // results from DATA_0 and DATA_1 registers
-        console.println("... reading DATA registers from AM2315");
-        int temperature = device.read(new byte[]{AM2315_CMD_READREG}, AM2315_REG_TEMP_H & 0xFF , 2 );
+        console.println("**********************************/n");
+
+        console.println("Reading DATA registers from AM2315");
+
+        console.println("**********************************/n");
+
+        int temperature = device.read(AM2315_REG_TEMP_H);
         if (temperature >= 32768){
             temperature = 32768 - temperature;
             temperature = temperature/10;
