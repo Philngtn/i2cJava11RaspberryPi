@@ -11,16 +11,15 @@ import java.util.Arrays;
 
 public class AM2315Controller {
     //AM2315 default add
-    public static final int AM2315_ADDR = 0x5c;
+    public static final int AM2315_ADDR = 0x5C;
 
     //AM2315 register
     public static final byte AM2315_CMD_READREG = (byte)0x03;
-    public static final byte AM2315_CMD_WRTREG = (byte)0x10;
     public static final byte AM2315_REG_TEMP_H = (byte)0x02;
     public static final byte AM2315_REG_HUM_H = (byte)0x00;
 
 
-    public static void readTempAndHumidity() throws InterruptedException, PlatformAlreadyAssignedException, IOException, I2CFactory.UnsupportedBusNumberException{
+    public static String readTempAndHumidity() throws InterruptedException, PlatformAlreadyAssignedException, IOException, I2CFactory.UnsupportedBusNumberException{
 
         // create Pi4J console wrapper/helper
         // (This is a utility class to abstract some of the boilerplate code)
@@ -45,6 +44,7 @@ public class AM2315Controller {
                 @SuppressWarnings("unused")
                 I2CBus bus = I2CFactory.getInstance(number);
                 console.println("Supported I2C bus " + number + " found");
+                break;
             } catch (IOException exception) {
                 console.println("I/O error on I2C bus " + number + " occurred");
             } catch (I2CFactory.UnsupportedBusNumberException exception) {
@@ -58,13 +58,12 @@ public class AM2315Controller {
 
         // create an I2C device for an individual device on the bus that you want to communicate with
         // in this example we will use the default address for the AM2315 chip which is 0x5C.
-        console.println("Getting sensor address AM2315 - 0x5C");
         I2CDevice device = i2c.getDevice(AM2315_ADDR);
-        console.println("Getting sensor address: " + String.format("0h", device.getAddress()));
+        console.println("Getting sensor address AM2315: " + String.format("0x%02x",device.getAddress()) + "Should be Ox5C");
 
 
         // next we want to start taking measurements, so we need to power up the sensor
-        console.println("... Powering up AM2315");
+        console.println("Powering up AM2315 ...");
         device.write(new byte[0x00]);
 
         // next, lets perform am I2C READ operation to the AM2315 chip
@@ -74,16 +73,18 @@ public class AM2315Controller {
         // now we will perform our first I2C READ operation to retrieve raw integration
         // results from DATA_0 and DATA_1 registers
         console.println("... reading DATA registers from AM2315");
-        float temperature = device.read(new byte[]{AM2315_CMD_READREG}, AM2315_REG_TEMP_H & 0xFF , 2 );
+        int temperature = device.read(new byte[]{AM2315_CMD_READREG}, AM2315_REG_TEMP_H & 0xFF , 2 );
         if (temperature >= 32768){
             temperature = 32768 - temperature;
             temperature = temperature/10;
         }
-        float humid = device.read(AM2315_REG_HUM_H)/10;
+        int humid = device.read(AM2315_REG_HUM_H)/10;
 
         // print raw integration results from DATA_0 and DATA_1 registers
         console.println("AM2315 Temperature = " + String.format("0x%02x", temperature));
         console.println("AM2315 Humidity = " + String.format("0x%02x", humid));
+
+        return "AM2315 Temperature = " + String.format("0x%02x", temperature);
     }
 
 }

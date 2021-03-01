@@ -16,8 +16,8 @@ public class sensorController {
     }
 
     @RequestMapping("/temp")
-    public void temp() throws InterruptedException, I2CFactory.UnsupportedBusNumberException, PlatformAlreadyAssignedException, IOException {
-        AM2315Controller.readTempAndHumidity();
+    public String temp() throws InterruptedException, I2CFactory.UnsupportedBusNumberException, PlatformAlreadyAssignedException, IOException {
+        return AM2315Controller.readTempAndHumidity();
     }
 
 }
