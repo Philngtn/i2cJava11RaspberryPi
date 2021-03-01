@@ -79,7 +79,7 @@ public class AM2315Controller {
         console.println("**********************************");
         console.println("                                  ");
 
-        device.write((byte)0x00);
+//        device.write((byte)0x00);
 
         console.println("                                  ");
         console.println("**********************************");
@@ -91,7 +91,7 @@ public class AM2315Controller {
         // next, lets perform am I2C READ operation to the AM2315 chip
         // we will read the 'ID' register from the chip to get its part number and silicon revision number
         // wait while the chip collects data
-        Thread.sleep(10);
+//        Thread.sleep(10);
         // now we will perform our first I2C READ operation to retrieve raw integration
         // results from DATA_0 and DATA_1 registers
         console.println("                                  ");
@@ -102,9 +102,9 @@ public class AM2315Controller {
         console.println("**********************************");
         console.println("                                  ");
 
-        int temperature = device.read(AM2315_REG_TEMP_H);
-
-        console.println(temperature);
+//        int temperature = device.read(AM2315_REG_TEMP_H);
+//
+//        console.println(temperature);
 //        if (temperature >= 32768){
 //            temperature = 32768 - temperature;
 //            temperature = temperature/10;
