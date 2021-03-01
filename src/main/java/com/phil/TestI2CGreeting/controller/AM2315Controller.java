@@ -79,7 +79,7 @@ public class AM2315Controller {
         console.println("**********************************");
         console.println("                                  ");
 
-        device.write(I2CBus.BUS_1, (byte) AM2315_ADDR);
+        device.write((byte)0x00);
 
         console.println("                                  ");
         console.println("**********************************");
