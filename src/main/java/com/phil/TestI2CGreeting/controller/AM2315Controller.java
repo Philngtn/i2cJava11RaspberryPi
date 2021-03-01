@@ -86,9 +86,17 @@ public class AM2315Controller {
         console.println("                                  ");
         console.println("**********************************");
         console.println("                                  ");
-
-        device.write((byte) 0x03,(byte) 0x00);
-
+        try {
+            device.write((byte) 0x00);
+        }catch (IOException exception){
+            console.println("                                  ");
+            console.println("**********************************");
+            console.println("                                  ");
+            console.println("AM2315 is offline");
+            console.println("                                  ");
+            console.println("**********************************");
+            console.println("                                  ");
+        }
         console.println("                                  ");
         console.println("**********************************");
         console.println("                                  ");
@@ -99,7 +107,7 @@ public class AM2315Controller {
         // next, lets perform am I2C READ operation to the AM2315 chip
         // we will read the 'ID' register from the chip to get its part number and silicon revision number
         // wait while the chip collects data
-        Thread.sleep(1);
+        Thread.sleep(10);
         // now we will perform our first I2C READ operation to retrieve raw integration
         // results from DATA_0 and DATA_1 registers
         console.println("                                  ");
