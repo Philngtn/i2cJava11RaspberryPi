@@ -63,7 +63,7 @@ public class AM2315Controller {
 
 
         // next we want to start taking measurements, so we need to power up the sensor
-        device.write(AM2315_CMD_READREG,(byte) 0x00);
+        device.write(AM2315_ADDR,(byte) 0x00);
 
 
         // next, lets perform am I2C READ operation to the AM2315 chip
