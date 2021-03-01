@@ -65,9 +65,10 @@ public class AM2315Controller {
 
 
         // next we want to start taking measurements, so we need to power up the sensor
-        console.println("Powering up AM2315 ...");
-        device.write(AM2315_CMD_READREG,AM2315_POWER_UP);
-        console.println("AM2315 is online...");
+//        console.println("Powering up AM2315 ...");
+//        device.write(AM2315_CMD_READREG,AM2315_POWER_UP);
+//        console.println("AM2315 is online...");
+
         // next, lets perform am I2C READ operation to the AM2315 chip
         // we will read the 'ID' register from the chip to get its part number and silicon revision number
         // wait while the chip collects data
