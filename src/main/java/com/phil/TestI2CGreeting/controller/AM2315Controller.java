@@ -82,16 +82,20 @@ public class AM2315Controller {
         console.println("                                  ");
         console.println("**********************************");
         console.println("                                  ");
-        console.println("Turn on DATA registers from AM2315");
+        console.println("Turn on AM2315");
         console.println("                                  ");
         console.println("**********************************");
         console.println("                                  ");
 
-        final char[] cmd = new char[] {0x00} ;
-        device.write((byte) AM2315_ADDR);
+        device.write((byte) 0x03,(byte) 0x00);
 
-
-
+        console.println("                                  ");
+        console.println("**********************************");
+        console.println("                                  ");
+        console.println("AM2315 is online");
+        console.println("                                  ");
+        console.println("**********************************");
+        console.println("                                  ");
         // next, lets perform am I2C READ operation to the AM2315 chip
         // we will read the 'ID' register from the chip to get its part number and silicon revision number
         // wait while the chip collects data
