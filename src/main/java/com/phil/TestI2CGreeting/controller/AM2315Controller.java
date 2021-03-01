@@ -59,13 +59,13 @@ public class AM2315Controller {
         // create an I2C device for an individual device on the bus that you want to communicate with
         // in this example we will use the default address for the AM2315 chip which is 0x5C.
         I2CDevice device = i2c.getDevice(AM2315_ADDR);
-        console.println("Getting sensor address AM2315: " + String.format("0x%02x",device.getAddress()) + "Should be Ox5C");
+        console.println("Getting sensor address AM2315: " + String.format("0x%02x",device.getAddress()) + " (should be Ox5c)");
 
 
         // next we want to start taking measurements, so we need to power up the sensor
         console.println("Powering up AM2315 ...");
-        device.write(new byte[0x00]);
-
+        device.write(AM2315_REG_HUM_H);
+        console.println("AM2315 is online...");
         // next, lets perform am I2C READ operation to the AM2315 chip
         // we will read the 'ID' register from the chip to get its part number and silicon revision number
         // wait while the chip collects data
