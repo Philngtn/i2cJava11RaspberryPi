@@ -63,7 +63,14 @@ public class AM2315Controller {
 
 
         // next we want to start taking measurements, so we need to power up the sensor
-        device.write(AM2315_ADDR,(byte) 0x00);
+
+        console.println("**********************************");
+
+        console.println("Turn on AM2315");
+
+        console.println("**********************************");
+
+        device.write((byte) 0x00);
 
 
         // next, lets perform am I2C READ operation to the AM2315 chip
@@ -72,11 +79,11 @@ public class AM2315Controller {
         Thread.sleep(10);
         // now we will perform our first I2C READ operation to retrieve raw integration
         // results from DATA_0 and DATA_1 registers
-        console.println("**********************************/n");
+        console.println("**********************************");
 
         console.println("Reading DATA registers from AM2315");
 
-        console.println("**********************************/n");
+        console.println("**********************************");
 
         int temperature = device.read(AM2315_REG_TEMP_H);
         if (temperature >= 32768){
